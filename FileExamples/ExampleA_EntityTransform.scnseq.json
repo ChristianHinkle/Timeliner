@@ -1,12 +1,14 @@
 {
-    "entities": [
-        {
-            "id": "PlayerCharacter"
-        },
-        {
-            "id": "PlayerWeapon"
-        }
-    ],
+    "refs": {
+        "entities": [
+            {
+                "identifier": "PlayerCharacter"
+            },
+            {
+                "identifier": "PlayerWeapon"
+            }
+        ]
+    },
     "timeline": {
         "timing": {
             "fps": 24,
@@ -16,6 +18,7 @@
             {
                 "id": "PlayerCharacter",
                 "type": "entity",
+                "entityRef": "PlayerCharacter",
                 "subtracks": [
                     {
                         "id": "Transform",
@@ -85,7 +88,8 @@
             },
             {
                 "id": "PlayerWeapon",
-                "type": "entity"
+                "type": "entity",
+                "entityRef": "PlayerWeapon"
             }
         ],
         "keys": [
