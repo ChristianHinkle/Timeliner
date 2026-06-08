@@ -1,5 +1,5 @@
 {
-    "$id": "https://raw.githubusercontent.com/ChristianHinkle/SceneSequencer/refs/heads/main/scnseq_schema.json",
+    "$id": "https://raw.githubusercontent.com/ChristianHinkle/Timeliner/refs/heads/main/tmln_schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "properties": {

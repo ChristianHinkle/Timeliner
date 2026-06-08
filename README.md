@@ -12,7 +12,7 @@ We should also provide a nice way to bind entities from levels/prefabs, via some
 
 Also, binding doesn't only apply to entities. This concept is generalized to any object that the cutscene may want to animate, e.g., audio assets to play, anim assets to play, custom properties that can affect anything such as overall music volume or gameplay values, etc.
 
-### Any-Scope Sequences
+### Any-Scope Timelines
 
 Not only should we support authoring cutscenes for entire levels, but for a single entity too.
 
