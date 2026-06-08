@@ -1,4 +1,4 @@
-# SceneSequencer
+# Timeliner
 
 ## Requirements
 
