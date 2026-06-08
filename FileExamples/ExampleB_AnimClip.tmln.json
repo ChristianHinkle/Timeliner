@@ -17,80 +17,78 @@
             }
         ]
     },
-    "timeline": {
-        "timing": {
-            "fps": 24,
-            "end": 96
+    "timing": {
+        "fps": 24,
+        "end": 96
+    },
+    "tracks": [
+        {
+            "id": "PlayerCharacter",
+            "type": "entity",
+            "entityRef": "PlayerCharacter",
+            "subtracks": [
+                {
+                    "id": "Mesh",
+                    "type": "mesh",
+                    "subtracks": [
+                        {
+                            "id": "AnimClipOperation",
+                            "type": "animClipOperation"
+                        }
+                    ]
+                }
+            ]
         },
-        "tracks": [
-            {
-                "id": "PlayerCharacter",
-                "type": "entity",
-                "entityRef": "PlayerCharacter",
-                "subtracks": [
-                    {
-                        "id": "Mesh",
-                        "type": "mesh",
-                        "subtracks": [
-                            {
-                                "id": "AnimClipOperation",
-                                "type": "animClipOperation"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "id": "PlayerWeapon",
-                "type": "entity",
-                "entityRef": "PlayerWeapon"
-            }
-        ],
-        "keys": [
-            {
-                "frame": 1,
-                "tracks": [
-                    {
-                        "id": "PlayerCharacter",
-                        "subtracks": [
-                            {
-                                "id": "Mesh",
-                                "subtracks": [
-                                    {
-                                        "id": "AnimClipOperation",
-                                        "value": {
-                                            "type": "reset"
-                                        }
+        {
+            "id": "PlayerWeapon",
+            "type": "entity",
+            "entityRef": "PlayerWeapon"
+        }
+    ],
+    "keys": [
+        {
+            "frame": 1,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter",
+                    "subtracks": [
+                        {
+                            "id": "Mesh",
+                            "subtracks": [
+                                {
+                                    "id": "AnimClipOperation",
+                                    "value": {
+                                        "type": "reset"
                                     }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "frame": 12,
-                "tracks": [
-                    {
-                        "id": "PlayerCharacter",
-                        "subtracks": [
-                            {
-                                "id": "Mesh",
-                                "subtracks": [
-                                    {
-                                        "id": "AnimClipOperation",
-                                        "value": {
-                                            "type": "play",
-                                            "animClipRef": "PlayerCharacter_FirePistol",
-                                            "rate": 1.0000000000000000
-                                        }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "frame": 12,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter",
+                    "subtracks": [
+                        {
+                            "id": "Mesh",
+                            "subtracks": [
+                                {
+                                    "id": "AnimClipOperation",
+                                    "value": {
+                                        "type": "play",
+                                        "animClipRef": "PlayerCharacter_FirePistol",
+                                        "rate": 1.0000000000000000
                                     }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

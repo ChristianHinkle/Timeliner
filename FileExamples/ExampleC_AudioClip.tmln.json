@@ -11,75 +11,73 @@
             }
         ]
     },
-    "timeline": {
-        "timing": {
-            "fps": 24,
-            "end": 96
+    "timing": {
+        "fps": 24,
+        "end": 96
+    },
+    "tracks": [
+        {
+            "id": "PlayerCharacter",
+            "type": "entity",
+            "entityRef": "PlayerCharacter",
+            "subtracks": [
+                {
+                    "id": "AudioEmitter",
+                    "type": "audioEmitter",
+                    "subtracks": [
+                        {
+                            "id": "AudioClipOperation",
+                            "type": "audioClipOperation"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "keys": [
+        {
+            "frame": 1,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter",
+                    "subtracks": [
+                        {
+                            "id": "AudioEmitter",
+                            "subtracks": [
+                                {
+                                    "id": "AudioClipOperation",
+                                    "value": {
+                                        "type": "reset"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
-        "tracks": [
-            {
-                "id": "PlayerCharacter",
-                "type": "entity",
-                "entityRef": "PlayerCharacter",
-                "subtracks": [
-                    {
-                        "id": "AudioEmitter",
-                        "type": "audioEmitter",
-                        "subtracks": [
-                            {
-                                "id": "AudioClipOperation",
-                                "type": "audioClipOperation"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "keys": [
-            {
-                "frame": 1,
-                "tracks": [
-                    {
-                        "id": "PlayerCharacter",
-                        "subtracks": [
-                            {
-                                "id": "AudioEmitter",
-                                "subtracks": [
-                                    {
-                                        "id": "AudioClipOperation",
-                                        "value": {
-                                            "type": "reset"
-                                        }
+        {
+            "frame": 12,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter",
+                    "subtracks": [
+                        {
+                            "id": "AudioEmitter",
+                            "subtracks": [
+                                {
+                                    "id": "AudioClipOperation",
+                                    "value": {
+                                        "type": "play",
+                                        "audioClipRef": "PlayerCharacter_Shout",
+                                        "rate": 1.0000000000000000
                                     }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "frame": 12,
-                "tracks": [
-                    {
-                        "id": "PlayerCharacter",
-                        "subtracks": [
-                            {
-                                "id": "AudioEmitter",
-                                "subtracks": [
-                                    {
-                                        "id": "AudioClipOperation",
-                                        "value": {
-                                            "type": "play",
-                                            "audioClipRef": "PlayerCharacter_Shout",
-                                            "rate": 1.0000000000000000
-                                        }
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

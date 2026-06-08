@@ -44,60 +44,54 @@
                 }
             }
         },
-        "timeline": {
+        "timing": {
             "type": "object",
             "properties": {
-                "timing": {
-                    "type": "object",
-                    "properties": {
-                        "fps": {
-                            "type": "integer",
-                            "minimum": 0
-                        },
-                        "end": {
-                            "type": "integer",
-                            "minimum": 1
-                        }
-                    },
-                    "required": ["fps", "end"]
+                "fps": {
+                    "type": "integer",
+                    "minimum": 0
                 },
-                "tracks": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "id": {
-                                "type": "string"
-                            },
-                            "type": {
-                                "type": "string"
-                            },
-                            "subtracks": {
-                                "type": "array"
-                            }
-                        },
-                        "required": ["id", "type"]
-                    }
-                },
-                "keys": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "frame": {
-                                "type": "integer",
-                                "minimum": 1
-                            },
-                            "tracks": {
-                                "type": "array"
-                            }
-                        },
-                        "required": ["frame", "tracks"]
-                    }
+                "end": {
+                    "type": "integer",
+                    "minimum": 1
                 }
             },
-            "required": ["timing"]
+            "required": ["fps", "end"]
+        },
+        "tracks": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "subtracks": {
+                        "type": "array"
+                    }
+                },
+                "required": ["id", "type"]
+            }
+        },
+        "keys": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "frame": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "tracks": {
+                        "type": "array"
+                    }
+                },
+                "required": ["frame", "tracks"]
+            }
         }
     },
-    "required": ["timeline"]
+    "required": ["timing"]
 }

@@ -9,154 +9,152 @@
             }
         ]
     },
-    "timeline": {
-        "timing": {
-            "fps": 24,
-            "end": 24
+    "timing": {
+        "fps": 24,
+        "end": 24
+    },
+    "tracks": [
+        {
+            "id": "PlayerCharacter",
+            "type": "entity",
+            "entityRef": "PlayerCharacter",
+            "subtracks": [
+                {
+                    "id": "Transform",
+                    "type": "transform",
+                    "subtracks": [
+                        {
+                            "id": "Translation",
+                            "type": "double3",
+                            "subtracks": [
+                                {
+                                    "id": "x",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "y",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "z",
+                                    "type": "double"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Rotation",
+                            "type": "double4",
+                            "subtracks": [
+                                {
+                                    "id": "x",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "y",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "z",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "w",
+                                    "type": "double"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Scale",
+                            "type": "double3",
+                            "subtracks": [
+                                {
+                                    "id": "x",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "y",
+                                    "type": "double"
+                                },
+                                {
+                                    "id": "z",
+                                    "type": "double"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
-        "tracks": [
-            {
-                "id": "PlayerCharacter",
-                "type": "entity",
-                "entityRef": "PlayerCharacter",
-                "subtracks": [
-                    {
-                        "id": "Transform",
-                        "type": "transform",
-                        "subtracks": [
-                            {
-                                "id": "Translation",
-                                "type": "double3",
-                                "subtracks": [
-                                    {
-                                        "id": "x",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "y",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "z",
-                                        "type": "double"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "Rotation",
-                                "type": "double4",
-                                "subtracks": [
-                                    {
-                                        "id": "x",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "y",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "z",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "w",
-                                        "type": "double"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "Scale",
-                                "type": "double3",
-                                "subtracks": [
-                                    {
-                                        "id": "x",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "y",
-                                        "type": "double"
-                                    },
-                                    {
-                                        "id": "z",
-                                        "type": "double"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "id": "PlayerWeapon",
-                "type": "entity",
-                "entityRef": "PlayerWeapon"
-            }
-        ],
-        "keys": [
-            {
-                "frame": 1,
-                "tracks": [
-                    {
-                        "id": "PlayerCharacter",
-                        "subtracks": [
-                            {
-                                "id": "Transform",
-                                "subtracks": [
-                                    {
-                                        "id": "Translation",
-                                        "subtracks": [
-                                            {
-                                                "id": "x",
-                                                "value": 0.0000000000000000
-                                            },
-                                            {
-                                                "id": "y",
-                                                "value": 0.0000000000000000
-                                            },
-                                            {
-                                                "id": "z",
-                                                "value": 0.0000000000000000
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "frame": 24,
-                "tracks": [
-                    {
-                        "id": "PlayerCharacter",
-                        "subtracks": [
-                            {
-                                "id": "Transform",
-                                "subtracks": [
-                                    {
-                                        "id": "Translation",
-                                        "subtracks": [
-                                            {
-                                                "id": "x",
-                                                "value": 0.0000000000000000
-                                            },
-                                            {
-                                                "id": "y",
-                                                "value": 100.00000000000000
-                                            },
-                                            {
-                                                "id": "z",
-                                                "value": 0.0000000000000000
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+        {
+            "id": "PlayerWeapon",
+            "type": "entity",
+            "entityRef": "PlayerWeapon"
+        }
+    ],
+    "keys": [
+        {
+            "frame": 1,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter",
+                    "subtracks": [
+                        {
+                            "id": "Transform",
+                            "subtracks": [
+                                {
+                                    "id": "Translation",
+                                    "subtracks": [
+                                        {
+                                            "id": "x",
+                                            "value": 0.0000000000000000
+                                        },
+                                        {
+                                            "id": "y",
+                                            "value": 0.0000000000000000
+                                        },
+                                        {
+                                            "id": "z",
+                                            "value": 0.0000000000000000
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "frame": 24,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter",
+                    "subtracks": [
+                        {
+                            "id": "Transform",
+                            "subtracks": [
+                                {
+                                    "id": "Translation",
+                                    "subtracks": [
+                                        {
+                                            "id": "x",
+                                            "value": 0.0000000000000000
+                                        },
+                                        {
+                                            "id": "y",
+                                            "value": 100.00000000000000
+                                        },
+                                        {
+                                            "id": "z",
+                                            "value": 0.0000000000000000
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }
