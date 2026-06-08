@@ -66,3 +66,17 @@ This is important because some games might have their own types that they have t
 A set of operations must be defined for us for track value types, such as an interpolation function. E.g., quaternions should be interpolated via a `slerp` rather than a `lerp`. This is something that the game only knows how to do (we don't want to reimplement 3D math into our timeline library). Another example is interpolating color values with an HSV-based interpolation rather than RGB. That is also something that the game must defined for us.
 
 Serialization functions would probably have to be specified as well for custom value types. E.g., how should we store this in json? And how should we read from it?
+
+## Timeline Data Format
+
+The file format that stores the timeline data will be based on json.
+
+We will avoid deep json object hierarchies of our tracks. We will keep the tracks stored as a flat hierarchy. Parent-child track relationships will be indicated by the track id (with a `.` character).
+
+This wouldn't be very efficient to parse during timeline playback, but it's okay because we plan to parse it upfront (before starting playback), building an in-memory representation of the tracks for the timeline playback runtime to use. This in-memory data structure will have cached data such as parent-child relationships to make it faster to evaluate at runtime.
+
+## Track Mapping (for Engine Integrations)
+
+This timeline player runtime library alone is not enough to make things happen in the game engine that it's being used in. An integration plugin will have to be written which will hook up mappings from known track structures to actual results in the game engine.
+
+E.g., certain tracks will have to be identified as an entity. And then the track id "EntityA.Transform.Translation.X" will be mapped to the X translation of whatever entity is bound to EntityA.
