@@ -4,27 +4,27 @@
 
 ### Binding
 
-Entity references can be bound to existing entities in the level before playing the cutscene, or spawned in by the cutscene itself.
+Entity references can be bound to existing entities in the level before playing the timeline, or spawned in by the timeline itself.
 
-This is important for letting the cutscene animate existing entities. Binding can be done manually before playing the cutscene.
+This is important for letting the timeline animate existing entities. Binding can be done manually before playing the timeline.
 
-We should also provide a nice way to bind entities from levels/prefabs, via some sort of asset that maps entities from the prefab. This would allow designers to just play a cutscene without having to specify bindings, as the bindings are already defined in a separate asset, instructing the cutscene player which entities from the prefab to bind to what.
+We should also provide a nice way to bind entities from levels/prefabs, via some sort of asset that maps entities from the prefab. This would allow designers to just play a timeline without having to specify bindings, as the bindings are already defined in a separate asset, instructing the timeline player which entities from the prefab to bind to what.
 
-Also, binding doesn't only apply to entities. This concept is generalized to any object that the cutscene may want to animate, e.g., audio assets to play, anim assets to play, custom properties that can affect anything such as overall music volume or gameplay values, etc.
+Also, binding doesn't only apply to entities. This concept is generalized to any object that the timeline may want to animate, e.g., audio assets to play, anim assets to play, custom properties that can affect anything such as overall music volume or gameplay values, etc.
 
 ### Any-Scope Timelines
 
-Not only should we support authoring cutscenes for entire levels, but for a single entity too.
+Not only should we support authoring timelines for entire levels, but for a single entity too.
 
-### Cutscene Data Decoupled from Level
+### Timeline Data Decoupled from Level
 
-Cutscene data should be stored in its own file(s), separate from the level prefeb (unlike TrackView).
+Timeline data should be stored in its own file(s), separate from the level prefeb (unlike TrackView).
 
-This is important for being able to play a cutscene in any level that relies on binding to entities or dynamically spawning its own entities.
+This is important for being able to play a timeline in any level that relies on binding to entities or dynamically spawning its own entities.
 
-### Multiple Cutscene Playback
+### Multiple Timeline Playback
 
-Multiple cutscenes should be able to be played at a time.
+Multiple timelines should be able to be played at a time.
 
 ### Interruptable (on a Per-Track Basis)
 
