@@ -30,6 +30,11 @@ This is important for being able to play a timeline in any level that relies on 
 
 Multiple timelines should be able to be played at a time.
 
+This gets complicated if two timelines have conflicting tracks (trying to animate the same thing). This could be handled with:
+- Warnings/errors to raise awareness (this is enough for the MVP).
+- A priority system to allow one timeline to trump the other.
+- A blending system? With an alpha?
+
 ### Partial Interruptibility
 
 The timeline playback must be interruptable, on a per-track basis.
@@ -49,3 +54,15 @@ The core design of this should support use cases outside of animating entities a
 ### Game-Engine-Agnostic
 
 The timeline player (runtime) should ideally be implemented in raw C++ which we could take with us to any game engine. This separation also supports the design, as timeline tracks themselves should be unaware of the game engine effects they are having, and binding is what bridges this connection.
+
+### Nested Timelines
+
+E.g., a level timeline should be able to play timelines on entities in the level.
+
+### Extensible Track Value Type Support
+
+This is important because some games might have their own types that they have to use. E.g., fixed-point real numbers based on integer storage, instead of floating-point types.
+
+A set of operations must be defined for us for track value types, such as an interpolation function. E.g., quaternions should be interpolated via a `slerp` rather than a `lerp`. This is something that the game only knows how to do (we don't want to reimplement 3D math into our timeline library). Another example is interpolating color values with an HSV-based interpolation rather than RGB. That is also something that the game must defined for us.
+
+Serialization functions would probably have to be specified as well for custom value types. E.g., how should we store this in json? And how should we read from it?
