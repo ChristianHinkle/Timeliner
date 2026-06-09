@@ -39,6 +39,8 @@ This gets complicated if two timelines have conflicting tracks (trying to animat
 
 The timeline playback must be interruptable, on a per-track basis.
 
+This implies the idea of "ownership". At any moment, a property is either in control by the gameplay, or the timeline. This ownership of properties should be able to be transferred back and forth.
+
 ### Additive Timelines (or Additive Tracks?)
 
 Timelines (or tracks) that store deltas rather than absolute values.
@@ -46,6 +48,24 @@ Timelines (or tracks) that store deltas rather than absolute values.
 ### Deterministic Support
 
 The design and code should support this, although we don't have to implement determinism exactly in our MVP.
+
+### Multiplayer Compatibility (Rollback and Replays)
+
+Timeline playback needs to be rewindable and replayable. This seems trivial for value track types, but event track types - such as playing audio, spawning entity, dealing damage - may need special handling in the game engine's integration plugin. You'd probably want to undo the side effects these events before resimulating. Or, in a less deterministic fashion, avoid re-firing the events during resimulation.
+
+Replay system support is a similar kinda deal. You may provide playback controls for the user to scrub through a replay (back and forth). In this case, that is similar to a rewind in rollback netcode. You would have to undo all the possible side effects of event tracks.
+
+### Save/Load Support
+
+Timeline playback state should be serializable into a game's save, and able to be restored when loading the save.
+
+E.g., in an open world game, you might have periodic auto-saves and auto-save on quit. At any moment a timeline may be playing and an auto-save may occur.
+
+Timeline playback data that must be saved and restored:
+- Bindings - If the gameplay code assigned dynamic bindings before playing the timeline, these have to be saved and restored.
+- Current Timestamp
+
+What's a little weird about this is that, the game will already be saving and restoring any important state. So, when the timeline is restored during a load, it would be unnecessary for the game engine integration plugin to apply the effects of track bindings on this frame, as it would just be the same state as what the game has already loaded. In this case, it would be nice to add some assertions or something like that to validate that this is the case.
 
 ### Useable Beyond Animating 3D Scenes
 
@@ -71,7 +91,7 @@ Serialization functions would probably have to be specified as well for custom v
 
 The file format that stores the timeline data will be based on json.
 
-We will avoid deep json object hierarchies of our tracks. We will keep the tracks stored as a flat hierarchy. Parent-child track relationships will be indicated by the track id (with a `.` character).
+We will avoid deep json object hierarchies of our tracks. We will keep the tracks stored as flat collections. Parent-child track relationships will be indicated by the track id (with a `.` character).
 
 This wouldn't be very efficient to parse during timeline playback, but it's okay because we plan to parse it upfront (before starting playback), building an in-memory representation of the tracks for the timeline playback runtime to use. This in-memory data structure will have cached data such as parent-child relationships to make it faster to evaluate at runtime.
 
