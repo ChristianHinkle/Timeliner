@@ -120,3 +120,73 @@ This wouldn't be very efficient to parse during timeline playback, but it's okay
 This timeline player runtime library alone is not enough to make things happen in the game engine that it's being used in. An integration plugin will have to be written which will hook up mappings from known track structures to actual results in the game engine.
 
 E.g., certain tracks will have to be identified as an entity. And then the track id "EntityA.Transform.Translation.X" will be mapped to the X translation of whatever entity is bound to EntityA.
+
+## Tick Matching Methods
+
+The timeline's frame rate will likely not match with the tick rate of the simulation it is being played in.
+
+Each track should be able to specify a "tick matching method" (name subject to change) to determine how its keys will "snap" to the simulation's actual tick timing.
+
+This problem can be divided into two main situations: discrete and continuous track types. Track types that are continuous can elegantly be interpolated to the most natural value at the current tick. Discrete track types, however, cannot simply be interpolated. Instead, one of the discrete states must be chosen at a time.
+
+### Track Type: Event
+
+This is discrete.
+
+|                                 |   |   |   |   |   |   |   |   |   |   |        |   |   |   |   |   |        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| ------------------------------- | - | - | - | - | - | - | - | - | - | - | ------ | - | - | - | - | - | ------ | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
+| 24 FPS (timeline)               | o | - | - | - | - | - | - | - | - | - | o      | - | - | - | - | - | -      | - | - | - | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o |
+| Track Keys                      |   |   |   |   |   |   |   |   |   |   | SIGNAL |   |   |   |   |   |        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|                                 |   |   |   |   |   |   |   |   |   |   |        |   |   |   |   |   |        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| 30 FPS (simulation)             | o | - | - | - | - | - | - | - | o | - | -      | - | - | - | - | - | o      | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o |
+| Track Playback Results          |   |   |   |   |   |   |   |   |   |   |        |   |   |   |   |   | SIGNAL |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+### Track Type: Value - Bool
+
+This is discrete.
+
+|                                 |     |   |   |   |   |   |   |   |   |   |    |   |   |   |   |   |    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |     |
+| ------------------------------- | --- | - | - | - | - | - | - | - | - | - | -- | - | - | - | - | - | -- | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | -   |
+| 24 FPS (timeline)               | o   | - | - | - | - | - | - | - | - | - | o  | - | - | - | - | - | -  | - | - | - | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o   |
+| Track Keys                      | OFF |   |   |   |   |   |   |   |   |   | ON |   |   |   |   |   |    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | OFF |
+|                                 |     |   |   |   |   |   |   |   |   |   |    |   |   |   |   |   |    |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |     |
+| 30 FPS (simulation)             | o   | - | - | - | - | - | - | - | o | - | -  | - | - | - | - | - | o  | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o   |
+| Track Playback Results          | OFF |   |   |   |   |   |   |   |   |   |    |   |   |   |   |   | ON |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | OFF |
+
+### Track Type: Value - Enum
+
+This is discrete.
+
+|                                 |         |   |   |   |   |   |   |   |   |   |       |   |   |   |   |   |       |   |   |   |       |   |   |   |       |   |   |   |   |   |      |   |      |   |   |   |   |   |   |   |         |
+| ------------------------------- | ------- | - | - | - | - | - | - | - | - | - | ----- | - | - | - | - | - | ----- | - | - | - | ----- | - | - | - | ----- | - | - | - | - | - | ---- | - | ---- | - | - | - | - | - | - | - | ------- |
+| 24 FPS (timeline)               | o       | - | - | - | - | - | - | - | - | - | o     | - | - | - | - | - | -     | - | - | - | o     | - | - | - | -     | - | - | - | - | - | o    | - | -    | - | - | - | - | - | - | - | o       |
+| Track Keys                      | neutral |   |   |   |   |   |   |   |   |   | angry |   |   |   |   |   |       |   |   |   | tired |   |   |   |       |   |   |   |   |   | calm |   |      |   |   |   |   |   |   |   | neutral |
+|                                 |         |   |   |   |   |   |   |   |   |   |       |   |   |   |   |   |       |   |   |   |       |   |   |   |       |   |   |   |   |   |      |   |      |   |   |   |   |   |   |   |         |
+| 30 FPS (simulation)             | o       | - | - | - | - | - | - | - | o | - | -     | - | - | - | - | - | o     | - | - | - | -     | - | - | - | o     | - | - | - | - | - | -    | - | o    | - | - | - | - | - | - | - | o       |
+| Track Playback Results          | neutral |   |   |   |   |   |   |   |   |   |       |   |   |   |   |   | angry |   |   |   |       |   |   |   | tired |   |   |   |   |   |      |   | calm |   |   |   |   |   |   |   | neutral |
+
+### Track Type: Value - Integer
+
+This is discrete.
+
+|                                 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| ------------------------------- | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
+| 24 FPS (timeline)               | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o |
+| Track Keys                      | 7 |   |   |   |   |   |   |   |   |   | 8 |   |   |   |   |   |   |   |   |   | 9 |   |   |   |   |   |   |   |   |   | 4 |   |   |   |   |   |   |   |   |   | 3 |
+|                                 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| 30 FPS (simulation)             | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o |
+| Track Playback Results          | 7 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 8 |   |   |   |   |   |   |   | 9 |   |   |   |   |   |   |   | 4 |   |   |   |   |   |   |   | 3 |
+
+### Track Type: Value - Float
+
+This is continuous.
+
+|                                 |     |   |   |   |   |   |   |   |     |   |     |   |   |   |   |   |     |   |   |   |     |   |   |   |     |   |   |   |   |   |     |   |     |   |   |   |   |   |   |   |     |
+| ------------------------------- | --- | - | - | - | - | - | - | - | --- | - | --- | - | - | - | - | - | --- | - | - | - | --- | - | - | - | --- | - | - | - | - | - | --- | - | --- | - | - | - | - | - | - | - | --- |
+| 24 FPS (timeline)               | o   | - | - | - | - | - | - | - | -   | - | o   | - | - | - | - | - | -   | - | - | - | o   | - | - | - | -   | - | - | - | - | - | o   | - | -   | - | - | - | - | - | - | - | o   |
+| Track Keys                      | 0.0 |   |   |   |   |   |   |   |     |   | 6.0 |   |   |   |   |   |     |   |   |   | 4.0 |   |   |   |     |   |   |   |   |   | 3.0 |   |     |   |   |   |   |   |   |   | 0.0 |
+|                                 |     |   |   |   |   |   |   |   |     |   |     |   |   |   |   |   |     |   |   |   |     |   |   |   |     |   |   |   |   |   |     |   |     |   |   |   |   |   |   |   |     |
+| 30 FPS (simulation)             | o   | - | - | - | - | - | - | - | o   | - | -   | - | - | - | - | - | o   | - | - | - | -   | - | - | - | o   | - | - | - | - | - | -   | - | o   | - | - | - | - | - | - | - | o   |
+| Track Playback Results          | 0.0 |   |   |   |   |   |   |   | 4.8 |   |     |   |   |   |   |   | 7.2 |   |   |   |     |   |   |   | 3.6 |   |   |   |   |   |     |   | 2.4 |   |   |   |   |   |   |   | 0.0 |
+
+Note: This example assumes a linear interpolation curve between each key.
