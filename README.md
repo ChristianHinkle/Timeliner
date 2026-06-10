@@ -45,6 +45,16 @@ This implies the idea of "ownership". At any moment, a property is either in con
 
 Timelines (or tracks) that store deltas rather than absolute values.
 
+### Frame-Based Timing
+
+The timeline should store timing information:
+- A frames per seconds value.
+- An end frame value to determine the duration.
+
+Although milliseconds is a nice objective measurement, frames are the language that animators understand. E.g., in 2D animation at 24 FPS, people know what the timing of 1's, on 2's, and on 3's feel like because that's part of the convention they work by.
+
+Timeline start frame: `1`. Animators think of frames as duration of time rather than positional indicies. E.g., a full second of time has passed when the end of frame 24 is reached (at 24 fps). The source timeline file should store these frames in the same way, so that developers can easily navigate the a timeline's file contents.
+
 ### Deterministic Support
 
 The design and code should support this, although we don't have to implement determinism exactly in our MVP.
