@@ -59,6 +59,16 @@ Timeline start frame: `1`. Animators think of frames as duration of time rather 
 
 The design and code should support this, although we don't have to implement determinism exactly in our MVP.
 
+The timeliner runtime should produce deterministic results when simulation tick rate mismatches the timeline's frame rate. E.g., a lockstep multiplayer game with a fixed tick rate of 30 FPS should be able to play 24-FPS-based timelines (timelines that affect gameplay).
+
+| Tick Rate                       |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| ------------------------------- | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - | - |
+| 240 Hz (for reference)          | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o | o |
+| 120 Hz (for reference)          | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o | - | o |
+| 60 Hz (for reference)           | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o | - | - | - | o |
+| 30 FPS (game's fixed tick rate) | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | o |
+| 24 FPS (timeline frame rate)    | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o | - | - | - | - | - | - | - | - | - | o |
+
 ### Multiplayer Compatibility (Rollback and Replays)
 
 Timeline playback needs to be rewindable and replayable. This seems trivial for value track types, but event track types - such as playing audio, spawning entity, dealing damage - may need special handling in the game engine's integration plugin. You'd probably want to undo the side effects these events before resimulating. Or, in a less deterministic fashion, avoid re-firing the events during resimulation.
