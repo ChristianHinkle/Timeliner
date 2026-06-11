@@ -107,6 +107,12 @@ A set of operations must be defined for us for track value types, such as an int
 
 Serialization functions would probably have to be specified as well for custom value types. E.g., how should we store this in json? And how should we read from it?
 
+### Cache-Friendly / Data-Oriented Runtime Playback
+
+We will aim to implement the timeline player in a cache-friendly manner.
+- Storing common track values in contiguous arrays grouped together by their type.
+- Iterating on each group of track values and processing them together by the same logic at a time.
+
 ## Timeline Data Format
 
 The file format that stores the timeline data will be based on json.
