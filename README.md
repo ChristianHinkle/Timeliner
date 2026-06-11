@@ -1,5 +1,7 @@
 # Timeliner
 
+A timeline playback runtime, implemented as a C++ library which can be integrated into game engines, 3D software, and other programs.
+
 ## Requirements
 
 ### Binding
