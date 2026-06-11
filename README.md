@@ -55,6 +55,8 @@ Although milliseconds is a nice objective measurement, frames are the language t
 
 Timeline start frame: `1`. Animators think of frames as duration of time rather than positional indicies. E.g., a full second of time has passed when the end of frame 24 is reached (at 24 fps). The source timeline file should store these frames in the same way, so that developers can easily navigate the a timeline's file contents.
 
+Frame `n` represents the `n`th frame in the timeline.
+
 ### Deterministic Support
 
 The design and code should support this, although we don't have to implement determinism exactly in our MVP.
@@ -83,7 +85,7 @@ E.g., in an open world game, you might have periodic auto-saves and auto-save on
 
 Timeline playback data that must be saved and restored:
 - Bindings - If the gameplay code assigned dynamic bindings before playing the timeline, these have to be saved and restored.
-- Current Timestamp
+- Playhead Position
 
 What's a little weird about this is that, the game will already be saving and restoring any important state. So, when the timeline is restored during a load, it would be unnecessary for the game engine integration plugin to apply the effects of track bindings on this frame, as it would just be the same state as what the game has already loaded. In this case, it would be nice to add some assertions or something like that to validate that this is the case.
 
@@ -103,9 +105,17 @@ E.g., a level timeline should be able to play timelines on entities in the level
 
 This is important because some games might have their own types that they have to use. E.g., fixed-point real numbers based on integer storage, instead of floating-point types.
 
-A set of operations must be defined for us for track value types, such as an interpolation function. E.g., quaternions should be interpolated via a `slerp` rather than a `lerp`. This is something that the game only knows how to do (we don't want to reimplement 3D math into our timeline library). Another example is interpolating color values with an HSV-based interpolation rather than RGB. That is also something that the game must defined for us.
+A set of operations must be defined for us for track value types, such as an interpolation function. E.g., quaternions should be interpolated via spherical interpolation (`slerp`) rather than linear (`lerp`). This is something that the game only knows how to do (we don't want to reimplement 3D math into our timeline library). Another example is interpolating color values with an HSV-based interpolation rather than RGB. That is also something that the game must defined for us.
 
 Serialization functions would probably have to be specified as well for custom value types. E.g., how should we store this in json? And how should we read from it?
+
+### Extensible at Runtime
+
+Compile-time extensibility is cool, but that means the library couldn't be distributed as its own binary. So we should make sure that we are extensible at runtime to avoid imposing the requirement of recompiling.
+
+This is important for third-party users of our library to be able to package this into their own 3D engines if they wanted to. E.g., if this became the official the TrackView replacement for O3DE, it would need to be distributed with the engine without requiring developers to compile from source.
+
+This also unlocks new capabilities technically. E.g., there may be runtime-loaded plugins in a game that introduce their own timelines with their own custom track value types. Those custom track value types need to be registered with the game's timeliner library in that moment (you can't just recompile during the game lol). A similar example is a game loading mods that may have custom timeline assets and such.
 
 ### Cache-Friendly / Data-Oriented Runtime Playback
 
