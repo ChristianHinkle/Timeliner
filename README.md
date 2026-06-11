@@ -178,6 +178,8 @@ E.g., certain tracks will have to be identified as an entity. And then the track
 
 ## Tick Matching Methods
 
+TODO: This may be solvable via track curves and interpolation functions. Figure out if these two concepts can be combined or whether there are actually special cases that need to be handled separately.
+
 The timeline's frame rate will likely not match with the tick rate of the simulation it is being played in.
 
 Each track should be able to specify a "tick matching method" (name subject to change) to determine how its keys will "snap" to the simulation's actual tick timing.
