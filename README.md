@@ -22,19 +22,21 @@ Note: This would be implemented by a game engine integration plugin. Probably vi
 
 #### How would the timeline animate an entity that it spawns?
 
-The timeline could have a separate track which stores a bindable identifier for the entity. The key that spawns the entity could have a way to assign the spawned entity to a bindable identifier. Once the entity is spawned and binded, I can now be animated by the track it is bound to.
+The timeline could have a separate track which stores a bindable identifier for the entity. The key that spawns the entity could have a way to assign the spawned entity to a bindable identifier. Once the entity is spawned and bound, I can now be animated by the track it is bound to.
 
 Other ideas?...
 
 This determines a lot about how we want to structure the timeline data and its file format.
 
-### Any-Scope Timelines
+### Timeline Scope
 
-Not only should we support authoring timelines for entire levels, but for a single entity too.
+A timeline should be able to be scoped to an entire level, or a set of entities within any level, or a single entity, or even a single component on an entity or set of properties.
+
+This is something that might not need to be implemented necessarily, just a consideration. If there are any features related to "scope", it would likely be handled by an external integration library.
 
 ### Timeline Data Decoupled from Level
 
-Timeline data should be stored in its own file(s), separate from the level prefeb (unlike TrackView).
+Timeline data should be stored in its own file(s), separate from the level prefab.
 
 This is important for being able to play a timeline in any level that relies on binding to entities or dynamically spawning its own entities.
 
@@ -67,11 +69,11 @@ Although milliseconds is a nice objective measurement, frames are the language t
 
 Timeline start frame: `1`. Animators think of frames as duration of time rather than positional indicies. E.g., a full second of time has passed when the end of frame 24 is reached (at 24 fps). The source timeline file should store these frames in the same way, so that developers can easily navigate the a timeline's file contents.
 
-Frame `n` represents the `n`th frame in the timeline.
+Another reason animators like this is so that frame `n` represents the `n`th frame in the timeline.
 
 ### Deterministic Support
 
-The design and code should support this, although we don't have to implement determinism exactly in our MVP.
+The design and code should support this, although we don't have to implement determinism exactly *to the T* in our MVP.
 
 The timeliner runtime should produce deterministic results when simulation tick rate mismatches the timeline's frame rate. E.g., a lockstep multiplayer game with a fixed tick rate of 30 FPS should be able to play 24-FPS-based timelines (timelines that affect gameplay).
 
@@ -117,13 +119,13 @@ E.g., a level-scoped timeline should be able to play timelines on entities in th
 
 This is important because some games might have their own types that they have to use. E.g., fixed-point real numbers based on integer storage, instead of floating-point types.
 
-A set of operations must be defined for us for track value types, such as an interpolation function. E.g., quaternions should be interpolated via spherical interpolation (`slerp`) rather than linear (`lerp`). This is something that the game only knows how to do (we don't want to reimplement 3D math into our timeline library). Another example is interpolating color values with an HSV-based interpolation rather than RGB. That is also something that the game must defined for us.
+A set of operations must be defined for us for track value types, such as interpolation functions (see "Track Curves and Interpolation" for more on this). E.g., quaternions should be interpolated via spherical interpolation (`slerp`) rather than linear (`lerp`). This is something that the game only knows how to do (we don't want to reimplement 3D math into our timeline library). Another example is interpolating color values with an HSV-based interpolation rather than RGB. That is also something that the game must defined for us.
 
 Serialization functions would probably have to be specified as well for custom value types. E.g., how should we store this in json? And how should we read from it?
 
 ### Extensible at Runtime
 
-Compile-time extensibility is cool, but that means the library couldn't be distributed as its own binary. So we should make sure that we are extensible at runtime to avoid imposing the requirement of recompiling.
+Compile-time extensibility is cool, but that means the library wouldn't be distributable as its own binary. So we should make sure that we are extensible at runtime to avoid imposing the requirement of recompiling.
 
 This is important for third-party users of our library to be able to package this into their own 3D engines if they wanted to. E.g., if this became the official the TrackView replacement for O3DE, it would need to be distributed with the engine without requiring developers to compile from source.
 
@@ -176,7 +178,7 @@ Interpolation functions should be an extensible feature. Library users can write
 
 ## Timeline Data Format
 
-The file format that stores the timeline data will be based on json.
+The file format that stores the timeline data will be json-based.
 
 We will avoid deep json object hierarchies of our tracks. We will keep the tracks stored as flat collections. Parent-child track relationships will be indicated by the track id (with a `.` character).
 
@@ -186,7 +188,7 @@ This wouldn't be very efficient to parse during timeline playback, but it's okay
 
 This timeline player runtime library alone is not enough to make things happen in the game engine that it's being used in. An integration plugin will have to be written which will hook up mappings from known track structures to actual results in the game engine.
 
-E.g., certain tracks will have to be identified as an entity. And then the track id "EntityA.Transform.Translation.X" will be mapped to the X translation of whatever entity is bound to EntityA.
+E.g., certain tracks will have to be identified as an entity. And then the track id "EntityA.Transform.Translation.X" will be mapped to the X translation of whatever entity is bound to the "EntityA" track.
 
 ## Tick Matching Methods
 
