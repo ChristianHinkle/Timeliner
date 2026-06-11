@@ -16,6 +16,16 @@ Also, binding doesn't only apply to entities. This concept is generalized to any
 
 Timelines must be able to spawn entities.
 
+Note: This would be implemented by a game engine integration plugin. Probably via an event track with signaling keys that provide parameters of which prefab to spawn, etc.
+
+#### How would the timeline animate an entity that it spawns?
+
+The timeline could have a separate track which stores a bindable identifier for the entity. The key that spawns the entity could have a way to assign the spawned entity to a bindable identifier. Once the entity is spawned and binded, I can now be animated by the track it is bound to.
+
+Other ideas?...
+
+This determines a lot about how we want to structure the timeline data and its file format.
+
 ### Any-Scope Timelines
 
 Not only should we support authoring timelines for entire levels, but for a single entity too.
