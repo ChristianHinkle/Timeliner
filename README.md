@@ -99,7 +99,7 @@ The timeline player (runtime) should ideally be implemented in raw C++ which we 
 
 ### Nested Timelines
 
-E.g., a level timeline should be able to play timelines on entities in the level.
+E.g., a level-scoped timeline should be able to play timelines on entities in the level.
 
 ### Extensible Track Value Type Support
 
@@ -122,6 +122,45 @@ This also unlocks new capabilities technically. E.g., there may be runtime-loade
 We will aim to implement the timeline player in a cache-friendly manner.
 - Storing common track values in contiguous arrays grouped together by their type.
 - Iterating on each group of track values and processing them together by the same logic at a time.
+
+### Track Curves and Interpolation
+
+Keys define the state of a track at certain timestamps/frames, but we also need curves to tell us what should be happening in between two keys.
+
+Animators should be able to author a curve for their track, as well as specify an interpolation function.
+
+#### Curves
+
+The purpose of curves concerns blend alpha between two keys.
+
+A customizable math function that determines the blend alpha throughout the range of time from one key to the next.
+
+Animators choose a curve type, a default curve of that type is generated, and the curve is able to be customized.
+
+Example curve types:
+- Linear (no customization available)
+- Discrete (no customization available)
+- Bezier (customizable via control handles)
+
+Curve types should be an extensible feature. Library users can write their own custom curve types. They must specify an alpha blending function, a serialization function, etc.
+
+#### Interpolation Functions
+
+The purpose of interpolation functions concerns how exactly do we blend two different values for a specific track value type when provided an alpha.
+
+A function that determines how to blend between two values given a blend alpha.
+
+Example interpolation functions:
+- Value Type: Quaternion
+    - Spherical
+- Value Type: Color
+    - HSV Interp
+- Value Type: Integer
+    - Floor/Truncate
+    - Round
+    - Ciel
+
+Interpolation functions should be an extensible feature. Library users can write their own interpolation functions for any track value type. They must specify what track value type they are providing an interpolation function for, they must specify the interpolation function itself, etc. Maybe also a serialization function in case we want to support being customizable by the animator.
 
 ## Timeline Data Format
 
