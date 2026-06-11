@@ -1,0 +1,84 @@
+{
+    "refs": [
+        {
+            "identifier": "o3de_entity.PlayerCharacter"
+        },
+        {
+            "identifier": "o3de_entity.PlayerWeapon"
+        }
+    ],
+    "timing": {
+        "fps": 24,
+        "end": 24
+    },
+    "tracks": [
+        {
+            "id": "PlayerCharacter",
+            "type": "o3de_entity_ref"
+        },
+        {
+            "id": "PlayerCharacter.Transform.Translation",
+            "type": "o3de_double3"
+        },
+        {
+            "id": "PlayerWeapon",
+            "type": "o3de_entity_ref"
+        }
+    ],
+    "initialization": [
+        {
+            "id": "PlayerCharacter",
+            "value": "o3de_entity.PlayerCharacter"
+        },
+        {
+            "id": "PlayerWeapon",
+            "value": "o3de_entity.PlayerWeapon"
+        }
+    ],
+    "keys": [
+        {
+            "frame": 1,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter.Transform.Translation",
+                    "value": [
+                        {
+                            "id": "x",
+                            "value": 0.0000000000000000
+                        },
+                        {
+                            "id": "y",
+                            "value": 0.0000000000000000
+                        },
+                        {
+                            "id": "z",
+                            "value": 0.0000000000000000
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "frame": 24,
+            "tracks": [
+                {
+                    "id": "PlayerCharacter.Transform.Translation",
+                    "value": [
+                        {
+                            "id": "x",
+                            "value": 0.0000000000000000
+                        },
+                        {
+                            "id": "y",
+                            "value": 100.00000000000000
+                        },
+                        {
+                            "id": "z",
+                            "value": 0.0000000000000000
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
